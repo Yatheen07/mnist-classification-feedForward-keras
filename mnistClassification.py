@@ -72,6 +72,8 @@ from keras.layers import Dense
 model = Sequential()
 model.add(Dense(512, activation='relu', input_shape=(dimData,))) # 1st hidden layer
 model.add(Dense(512, activation='relu')) # 2nd hidden layer
+model.add(Dense(512, activation='relu')) # 2nd hidden layer
+model.add(Dense(512, activation='relu')) # 2nd hidden layer
 model.add(Dense(nClasses, activation='softmax')) #softmax for multi class classification
 
 """Step 8: Compiling the network """
@@ -80,7 +82,7 @@ model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['ac
 
 """Step 9 : Training """
 
-history = model.fit(train_data, train_labels_one_hot, batch_size=256, epochs=20, verbose=1, 
+history = model.fit(train_data, train_labels_one_hot, batch_size=256, epochs=30, verbose=1, 
                    validation_data=(test_data, test_labels_one_hot))
 
 """Step 10 : Model Evaluation """
@@ -122,7 +124,7 @@ model_reg.add(Dense(nClasses, activation='softmax'))
 """ Step 13 : Performance after regularisation """
 
 model_reg.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
-history_reg = model_reg.fit(train_data, train_labels_one_hot, batch_size=256, epochs=20, verbose=1, 
+history_reg = model_reg.fit(train_data, train_labels_one_hot, batch_size=256, epochs=30, verbose=1, 
                             validation_data=(test_data, test_labels_one_hot))
  
 #Plot the Loss Curves
@@ -157,7 +159,8 @@ result = model_reg.predict(test_data[[15],:])
 
 import cv2 #import openCv package 
 
-image = cv2.imread(r"E:\Mini Projects\Machine Learning\minst image classification\2.png") # read the image drawn using paint
+image = cv2.imread(r"E:\Mini Projects\Machine Learning\minst image classification\7.png") # read the image drawn using paint
+
 image = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY) # convert it to grayscale
 
 test_image = np.array(image) # convert it into numpy array
@@ -168,11 +171,13 @@ result_image = test_image.reshape(1, 784) #reshape the numpy array
 
 result_image = result_image.astype('float32') #change the data type to float
 result_image /= 255 # make the pixel range between 0 and 1
-print(result_image)
+#print(result_image)
 
-model_reg.predict_classes(result_image) # prediction
+answer = model_reg.predict_classes(result_image) # prediction
+print("My guess for the digit is: "+str(answer))
 
-print(model_reg.predict(result_image)) # probablity
+
+
 
 
 
